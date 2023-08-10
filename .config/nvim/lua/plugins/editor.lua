@@ -175,12 +175,12 @@ return {
     },
     opts = {
       defaults = {
-      git_worktrees = {
-        {
-          top_level = vim.env.HOME,
-          gitdir = vim.env.HOME .. "/personal/dotfiles.git",
+        git_worktrees = {
+          {
+            top_level = vim.env.HOME,
+            gitdir = vim.env.HOME .. "/personal/dotfiles.git",
+          },
         },
-      },
         prompt_prefix = " ",
         selection_caret = " ",
         mappings = {
