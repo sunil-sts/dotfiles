@@ -1,5 +1,7 @@
 vim.cmd("lcd %:p:h")
 vim.cmd("tcd %:p:h")
+vim.cmd("lcd")
+vim.cmd("tcd")
 
 require("config.options")
 require("config.autocmds")

@@ -77,4 +77,11 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 })
 
 -- }}}
+-- Set gitdir for dotfiles repo.
+vim.api.nvim_create_autocmd("BufEnter", {
+  pattern = { "*/.config/*", },
+  callback = function()
+    vim.b.git_dir = vim.env.HOME .. "/personal/dotfiles.git"
+  end,
+})
 

@@ -111,9 +111,6 @@ return {
       { "<leader>fF", Util.telescope("files", { cwd = false }), desc = "Find Files (cwd)" },
       { "<leader>fr", "<cmd>Telescope oldfiles<cr>", desc = "Recent" },
       { "<leader>fR", Util.telescope("oldfiles", { cwd = vim.loop.cwd() }), desc = "Recent (cwd)" },
-      -- git
-      { "<leader>gc", "<cmd>Telescope git_commits<CR>", desc = "commits" },
-      { "<leader>gs", "<cmd>Telescope git_status<CR>", desc = "status" },
       -- search
       { '<leader>s"', "<cmd>Telescope registers<cr>", desc = "Registers" },
       { "<leader>sa", "<cmd>Telescope autocommands<cr>", desc = "Auto Commands" },
@@ -175,12 +172,6 @@ return {
     },
     opts = {
       defaults = {
-        git_worktrees = {
-          {
-            top_level = vim.env.HOME,
-            gitdir = vim.env.HOME .. "/personal/dotfiles.git",
-          },
-        },
         prompt_prefix = " ",
         selection_caret = " ",
         mappings = {
@@ -312,7 +303,7 @@ return {
   {
     'tpope/vim-fugitive',
     keys = {
-      { "<leader>gg", vim.cmd.Git , desc = "Git" },
+      { "<leader>gs", vim.cmd.Git , desc = "Git" },
     },
   },
 

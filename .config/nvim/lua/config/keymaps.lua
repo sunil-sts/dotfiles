@@ -6,6 +6,32 @@ function Keymap(mode, lhs, rhs, opts)
   vim.api.nvim_set_keymap(mode, lhs, rhs, options)
 end
 
+
+local function lazygit()
+  local gitpath = vim.b.git_dir
+  local opts = {
+    ft = "lazygit",
+    size = { width = 0.9, height = 0.9 },
+  }
+  local float = require("lazy.util").float(opts)
+  if gitpath then
+    vim.fn.termopen("lazygit --git-dir=" .. gitpath, opts)
+  else
+    vim.fn.termopen("lazygit", opts)
+  end
+  vim.cmd.startinsert()
+  vim.api.nvim_create_autocmd("TermClose", {
+    once = true,
+    buffer = float.buf,
+    callback = function()
+      float:close({ wipe = true })
+      vim.cmd.checktime()
+    end,
+  })
+end
+
+vim.keymap.set("n", "<leader>gg", function() lazygit() end, { desc = "Lazygit (root dir)" })
+
 -- ------------------------------------------------------------------------- }}}
 -- {{{ General mappings.
 
