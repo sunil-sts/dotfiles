@@ -1,5 +1,3 @@
--- {{{ Lazy setup.
-
 require("lazy").setup({
   spec = {
     { import = "plugins" },
@@ -31,4 +29,3 @@ require("lazy").setup({
   },
 })
 
--- }}}

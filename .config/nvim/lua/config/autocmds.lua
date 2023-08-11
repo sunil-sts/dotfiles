@@ -1,12 +1,10 @@
--- {{{ Create autogroup.
---     NOTE: Found in lazy.vim auto commands.
+-- Create autogroup.
 
 local function augroup(name)
   return vim.api.nvim_create_augroup("sunil_" .. name, { clear = true })
 end
 
--- -------------------------------------------------------------------------- }}}
--- {{{ Transparency
+-- Transparency
 
 vim.api.nvim_create_autocmd("BufEnter", {
   group = augroup("transparency"),
@@ -26,8 +24,7 @@ vim.api.nvim_create_autocmd("BufEnter", {
   end,
 })
 
--- }}}
--- {{{ Format options
+-- Format options
 
 vim.api.nvim_create_autocmd("BufEnter", {
   callback = function()
@@ -47,8 +44,7 @@ vim.api.nvim_create_autocmd("BufEnter", {
   end,
 })
 
--- ------------------------------------------------------------------------- }}}
--- {{{ Set spelling for some file types.
+-- Set spelling for some file types.
 
 vim.api.nvim_create_autocmd("FileType", {
   pattern = { "gitcommit", "markdown" },
@@ -57,8 +53,7 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
--- ------------------------------------------------------------------------- }}}
--- {{{ go to last loc when opening a buffer
+-- go to last loc when opening a buffer
 
 vim.api.nvim_create_autocmd("BufReadPost", {
   group = augroup("last_loc"),
@@ -76,7 +71,6 @@ vim.api.nvim_create_autocmd("BufReadPost", {
   end,
 })
 
--- }}}
 -- Set gitdir for dotfiles repo.
 vim.api.nvim_create_autocmd("BufEnter", {
   pattern = { "*/.config/*", },

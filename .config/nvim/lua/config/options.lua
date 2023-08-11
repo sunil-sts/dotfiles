@@ -1,5 +1,3 @@
--- {{{ Alphabetical listing of settings.
-
 local options = {
   backup = false,
   breakindent = true,
@@ -9,12 +7,9 @@ local options = {
   cursorline = false,
   expandtab = true,
   fillchars = { fold = " ", eob = " " },
-  -- foldlevel = 0,
-  -- foldmethod = "marker",
   grepformat = "%f:%l:%c:%m",
   grepprg = "rg --vimgrep",
   hidden = true,
-  -- hlsearch = false,
   ignorecase = true,
   incsearch = true,
   laststatus = 0,
@@ -55,17 +50,4 @@ end
 
 vim.cmd([[filetype plugin indent on]])
 vim.opt.isfname:append("@-@")
-
-
--- ------------------------------------------------------------------------- }}}
--- {{{ Bullets
-
-vim.g.bullets_enabled_file_types = {
-  "gitcommit",
-  "markdown",
-  "scratch",
-  "text",
-}
-
--- ------------------------------------------------------------------------- }}}
 

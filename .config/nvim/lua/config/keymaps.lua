@@ -1,4 +1,4 @@
--- {{{ keymap helper
+-- keymap helper
 
 function Keymap(mode, lhs, rhs, opts)
   local options = { noremap = true, silent = true }
@@ -6,34 +6,8 @@ function Keymap(mode, lhs, rhs, opts)
   vim.api.nvim_set_keymap(mode, lhs, rhs, options)
 end
 
-
-local function lazygit()
-  local gitpath = vim.b.git_dir
-  local opts = {
-    ft = "lazygit",
-    size = { width = 0.9, height = 0.9 },
-  }
-  local float = require("lazy.util").float(opts)
-  if gitpath then
-    vim.fn.termopen("lazygit --git-dir=" .. gitpath, opts)
-  else
-    vim.fn.termopen("lazygit", opts)
-  end
-  vim.cmd.startinsert()
-  vim.api.nvim_create_autocmd("TermClose", {
-    once = true,
-    buffer = float.buf,
-    callback = function()
-      float:close({ wipe = true })
-      vim.cmd.checktime()
-    end,
-  })
-end
-
-vim.keymap.set("n", "<leader>gg", function() lazygit() end, { desc = "Lazygit (root dir)" })
-
--- ------------------------------------------------------------------------- }}}
--- {{{ General mappings.
+-- find and replace on word under cursor
+Keymap("n", "<leader>cs", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 
 -- Select (charwise) the contents of the current line, excluding indentation.
 Keymap("n", "vv", "^vg_")
@@ -81,20 +55,11 @@ Keymap("n", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search res
 Keymap("x", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search result" })
 Keymap("o", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search result" })
 
--- Quickfix
--- Keymap("n", "<leader>xl", "<cmd>lopen<cr>", { desc = "Location List" })
--- Keymap("n", "<leader>xq", "<cmd>copen<cr>", { desc = "Quickfix List" })
-
--- Keymap("n", "[q", "<cmd>cprev", { desc = "Previous quickfix" })
--- Keymap("n", "]q", "<cmd>cnext", { desc = "Next quickfix" })
-
 -- Clear search with <esc>
 Keymap("n", "<esc>", "<cmd>noh<cr><esc>", { desc = "Escape and clear hlsearch" })
 Keymap("i", "<esc>", "<cmd>noh<cr><esc>", { desc = "Escape and clear hlsearch" })
 
--- }}}
--- {{{ Windows
-
+-- Windows
 -- Move to window using the <ctrl> hjkl keys
 Keymap("n", "<C-h>", "<C-w>h", { desc = "Go to left window"})
 Keymap("n", "<C-j>", "<C-w>j", { desc = "Go to lower window"})
@@ -112,9 +77,7 @@ Keymap("n", "<leader>wd", "<C-W>c", { desc = "Delete window" })
 Keymap("n", "<leader>wb", "<C-W>s", { desc = "Split window below" })
 Keymap("n", "<leader>wv", "<C-W>v", { desc = "Split window right" })
 
-
--- }}}
--- {{{ Tabbers
+-- Tabbers
 
 Keymap("n", "<leader><tab>l", "<cmd>tablast<cr>", { desc = "Last Tab" })
 Keymap("n", "<leader><tab>f", "<cmd>tabfirst<cr>", { desc = "First Tab" })
@@ -123,9 +86,7 @@ Keymap("n", "<leader><tab>]", "<cmd>tabnext<cr>", { desc = "Next Tab" })
 Keymap("n", "<leader><tab>d", "<cmd>tabclose<cr>", { desc = "Close Tab" })
 Keymap("n", "<leader><tab>[", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
 
-
--- }}}
--- {{{ Buffers
+-- Buffers
 
 Keymap("n", "<S-h>", "<cmd>BufferLineCyclePrev<cr>", { desc = "Prev buffer" })
 Keymap("n", "<S-l>", "<cmd>BufferLineCycleNext<cr>", { desc = "Next buffer" })
@@ -133,48 +94,21 @@ Keymap("n", "[b", "<cmd>BufferLineCyclePrev<cr>", { desc = "Prev buffer" })
 Keymap("n", "]b", "<cmd>BufferLineCycleNext<cr>", { desc = "Next buffer" })
 Keymap("n", "<leader>bb", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
 Keymap("n", "<leader>`", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
--- }}}
--- {{{ Folding commands.
 
--- Author: Karl Yngve Lervåg
---    See: https://github.com/lervag/dotnvim
-
--- Close all fold except the current one.
-Keymap("n", "zv", "zMzvzz")
-
--- Close current fold when open. Always open next fold.
-Keymap("n", "zj", "zcjzOzz")
-
--- Close current fold when open. Always open previous fold.
-Keymap("n", "zk", "zckzOzz")
-
--- ------------------------------------------------------------------------- }}}
--- {{{ Center cursor
+-- Center cursor
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
--- }}}
--- {{{ Keep the cursor in place while joining lines.
+
+-- Keep the cursor in place while joining lines.
 
 Keymap("n", "J", "mzJ`z")
 Keymap("n", "<leader>J", "myvipJ`ygq<cr>")
 
--- ------------------------------------------------------------------------- }}}
--- {{{ l - LSP
-
--- TODO: Finish implementing LSP keybindings.  Some plugins are not installed.
-
 -- LSP
 Keymap("n", "<leader>lF", "<cmd>LspToggleAutoFormat<cr>")
 Keymap("n", "<leader>li", "<cmd>LspInfo<cr>")
-
-
--- LuaSnipUnlinkCurrent
-Keymap("n", "<leader>lu", "<cmd>LuaSnipUnlinkCurrent<cr>")
-
--- SymoblsOutline
-Keymap("n", "<leader>lo", "<cmd>SymbolsOutline<cr>")
 
 -- Trouble
 Keymap("n", "<leader>lR", "<cmd>TroubleToggle lsp_references<cr>")
@@ -195,39 +129,45 @@ Keymap("n", "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<cr>")
 Keymap("n", "<leader>lf", "<cmd>lua vim.lsp.buf.format({ async = true })<cr>")
 Keymap("n", "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<cr>")
 
--- ------------------------------------------------------------------------- }}}
--- {{{ c - Copy & Paste
-
-Keymap("n", "<leader>cc", 'ggVGg_"+y')
-
--- ------------------------------------------------------------------------- }}}
--- {{{ o - Options
+-- o - Options
 
 Keymap("n", "<leader>oh", "<cmd>checkhealth<cr>")
 Keymap("n", "<leader>oo", "<cmd>only<cr>")
 
--- ------------------------------------------------------------------------- }}}
--- {{{ p - Package manager
+-- p - Package manager
 
 Keymap("n", "<leader>ph", "<cmd>Lazy home<cr>")
 Keymap("n", "<leader>pl", "<cmd>Lazy log<cr>")
 Keymap("n", "<leader>pp", "<cmd>Lazy profile<cr>")
 Keymap("n", "<leader>ps", "<cmd>Lazy sync<cr>")
 Keymap("n", "<leader>pu", "<cmd>Lazy update<cr>")
-
--- ------------------------------------------------------------------------- }}}
--- {{{ s - Split & Sorts
-
-Keymap("n", "<leader>sS", "0v)k$:sort<cr>")
-Keymap("n", "<leader>ss", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+Keymap("n", "<leader>pm", "<cmd>Mason<cr>", { desc = "Mason" })
 
 
--- ------------------------------------------------------------------------- }}}
--- {{{ w - Whitespace
+-- Lazygit
 
-Keymap("n", "<leader>wr", "<cmd>%s/\r//g<cr>")
-Keymap("n", "<leader>wt", "mz<cmd>%s/\t/  /g<cr><cmd>let @/=''<cr>`z")
-Keymap("n", "<leader>ww", [[mz<cmd>%s//\\s\\+$////<cr><cmd>let @/=''<cr>`z]])
+local function lazygit()
+  local gitpath = vim.b.git_dir
+  local opts = {
+    ft = "lazygit",
+    size = { width = 0.9, height = 0.9 },
+  }
+  local float = require("lazy.util").float(opts)
+  if gitpath then
+    vim.fn.termopen("lazygit --git-dir=" .. gitpath, opts)
+  else
+    vim.fn.termopen("lazygit", opts)
+  end
+  vim.cmd.startinsert()
+  vim.api.nvim_create_autocmd("TermClose", {
+    once = true,
+    buffer = float.buf,
+    callback = function()
+      float:close({ wipe = true })
+      vim.cmd.checktime()
+    end,
+  })
+end
 
--- ------------------------------------------------------------------------- }}}
+vim.keymap.set("n", "<leader>gg", function() lazygit() end, { desc = "Lazygit (root dir)" })
 
