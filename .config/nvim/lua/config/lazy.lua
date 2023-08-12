@@ -9,9 +9,13 @@ require("lazy").setup({
     version = false,
   },
 
-  install = { colorscheme = { "tokyonight" } },
+  change_detection = {
+    enabled = false,
+  },
 
-  checker = { enabled = true },
+  install = {
+    colorscheme = { "onedark" },
+  },
 
   performance = {
     rtp = {

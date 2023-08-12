@@ -40,12 +40,10 @@ Keymap("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 Keymap("x", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 
 -- Move Lines
-Keymap("n", "<A-j>", "<cmd>m .+1<cr>==", { desc = "Move down" })
-Keymap("n", "<A-k>", "<cmd>m .-2<cr>==", { desc = "Move up" })
-Keymap("i", "<A-j>", "<esc><cmd>m .+1<cr>==gi", { desc = "Move down" })
-Keymap("i", "<A-k>", "<esc><cmd>m .-2<cr>==gi", { desc = "Move up" })
-Keymap("v", "<A-j>", ":m '>+1<cr>gv=gv", { desc = "Move down" })
-Keymap("v", "<A-k>", ":m '<-2<cr>gv=gv", { desc = "Move up" })
+Keymap("n", "<leader>j", "<cmd>m .+1<cr>==", { desc = "Move down" })
+Keymap("n", "<leader>k", "<cmd>m .-2<cr>==", { desc = "Move up" })
+Keymap("v", "<leader>j", ":m '>+1<cr>gv=gv", { desc = "Move down" })
+Keymap("v", "<leader>k", ":m '<-2<cr>gv=gv", { desc = "Move up" })
 
 -- https://github.com/mhinz/vim-galore#saner-behavior-of-n-and-n
 Keymap("n", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next search result" })
@@ -72,7 +70,6 @@ Keymap("n", "<C-Down>", "<cmd>resize -2<cr>", { desc = "Decrease window height" 
 Keymap("n", "<C-Left>", "<cmd>vertical resize -2<cr>", { desc = "Decrease window width" })
 Keymap("n", "<C-Right>", "<cmd>vertical resize +2<cr>", { desc = "Increase window width" })
 
-Keymap("n", "<leader>ww", "<C-W>p", { desc = "Other window" })
 Keymap("n", "<leader>wd", "<C-W>c", { desc = "Delete window" })
 Keymap("n", "<leader>wb", "<C-W>s", { desc = "Split window below" })
 Keymap("n", "<leader>wv", "<C-W>v", { desc = "Split window right" })
@@ -88,10 +85,10 @@ Keymap("n", "<leader><tab>[", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
 
 -- Buffers
 
-Keymap("n", "<S-h>", "<cmd>BufferLineCyclePrev<cr>", { desc = "Prev buffer" })
-Keymap("n", "<S-l>", "<cmd>BufferLineCycleNext<cr>", { desc = "Next buffer" })
-Keymap("n", "[b", "<cmd>BufferLineCyclePrev<cr>", { desc = "Prev buffer" })
-Keymap("n", "]b", "<cmd>BufferLineCycleNext<cr>", { desc = "Next buffer" })
+Keymap("n", "<S-h>", "<cmd>bprev<cr>", { desc = "Prev buffer" })
+Keymap("n", "<S-l>", "<cmd>bnext<cr>", { desc = "Next buffer" })
+Keymap("n", "[b", "<cmd>bprev<cr>", { desc = "Prev buffer" })
+Keymap("n", "]b", "<cmd>bnext<cr>", { desc = "Next buffer" })
 Keymap("n", "<leader>bb", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
 Keymap("n", "<leader>`", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
 
@@ -102,9 +99,7 @@ vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
 -- Keep the cursor in place while joining lines.
-
 Keymap("n", "J", "mzJ`z")
-Keymap("n", "<leader>J", "myvipJ`ygq<cr>")
 
 -- LSP
 Keymap("n", "<leader>lF", "<cmd>LspToggleAutoFormat<cr>")
@@ -149,11 +144,12 @@ Keymap("n", "<leader>pm", "<cmd>Mason<cr>", { desc = "Mason" })
 local function lazygit()
   local gitpath = vim.b.git_dir
   local opts = {
-    ft = "lazygit",
+    ft = "gitterm",
     size = { width = 0.9, height = 0.9 },
   }
   local float = require("lazy.util").float(opts)
   if gitpath then
+    opts = vim.tbl_deep_extend("force", opts, { cwd = vim.env.HOME, })
     vim.fn.termopen("lazygit --git-dir=" .. gitpath, opts)
   else
     vim.fn.termopen("lazygit", opts)
@@ -170,4 +166,3 @@ local function lazygit()
 end
 
 vim.keymap.set("n", "<leader>gg", function() lazygit() end, { desc = "Lazygit (root dir)" })
-

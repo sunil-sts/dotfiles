@@ -1,4 +1,5 @@
 return {
+  require("plugins.lsp.copilot"),
   -- lspconfig
   {
     "neovim/nvim-lspconfig",

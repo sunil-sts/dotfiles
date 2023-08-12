@@ -1,7 +1,11 @@
-vim.cmd("lcd %:p:h")
-vim.cmd("tcd %:p:h")
-vim.cmd("lcd")
-vim.cmd("tcd")
+if vim.fn.argc() == 1 then
+  local stat = vim.loop.fs_stat(vim.fn.argv(0))
+  if stat and stat.type == "directory" then
+    vim.cmd([[cd %]])
+  elseif stat then
+    vim.cmd([[cd %:h]])
+  end
+end
 
 require("config.options")
 require("config.autocmds")

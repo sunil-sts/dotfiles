@@ -92,13 +92,6 @@ return {
     end,
   },
 
-  -- auto pairs
-  {
-    "echasnovski/mini.pairs",
-    event = "VeryLazy",
-    opts = {},
-  },
-
   -- Fast and feature-rich surround actions. For text that includes
   -- surrounding characters like brackets or quotes, this allows you
   -- to select the text inside, change or modify the surrounding characters,
@@ -137,10 +130,6 @@ return {
   },
 
   -- comments
-  -- {
-  --   "echasnovski/mini.comment",
-  --   event = "VeryLazy",
-  -- },
   {
     "tpope/vim-commentary",
     event = "VeryLazy",
@@ -172,8 +161,6 @@ return {
     config = function(_, opts)
       require("mini.ai").setup(opts)
       -- register all text objects with which-key
-      require("config.util").on_load("which-key.nvim", function()
-        ---@type table<string, string|table>
         local i = {
           [" "] = "Whitespace",
           ['"'] = 'Balanced "',
@@ -213,7 +200,6 @@ return {
           i = i,
           a = a,
         })
-      end)
     end,
   },
 }

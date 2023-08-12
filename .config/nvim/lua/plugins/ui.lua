@@ -20,10 +20,10 @@ return {
         return math.floor(vim.o.columns * 0.75)
       end,
       stages = "fade",
-      render = "minimal",
+      render = "compact",
       level = 3,
-      top_down = false,
-      background_colour = "#000000",
+      top_down = true,
+      background_colour = "#131313",
     },
   },
 
@@ -32,12 +32,10 @@ return {
     "stevearc/dressing.nvim",
     lazy = true,
     init = function()
-      ---@diagnostic disable-next-line: duplicate-set-field
       vim.ui.select = function(...)
         require("lazy").load({ plugins = { "dressing.nvim" } })
         return vim.ui.select(...)
       end
-      ---@diagnostic disable-next-line: duplicate-set-field
       vim.ui.input = function(...)
         require("lazy").load({ plugins = { "dressing.nvim" } })
         return vim.ui.input(...)
@@ -45,48 +43,17 @@ return {
     end,
   },
 
-  -- This is what powers LazyVim's fancy-looking
-  -- tabs, which include filetype icons and close buttons.
-  --   {
-  --     "akinsho/bufferline.nvim",
-  --     event = "VeryLazy",
-  --     keys = {
-  --       { "<leader>bp", "<Cmd>BufferLineTogglePin<CR>", desc = "Toggle pin" },
-  --       { "<leader>bP", "<Cmd>BufferLineGroupClose ungrouped<CR>", desc = "Delete non-pinned buffers" },
-  --     },
-  --     opts = {
-  --       options = {
-  --         -- stylua: ignore
-  --         close_command = function(n) require("mini.bufremove").delete(n, false) end,
-  --         -- stylua: ignore
-  --         right_mouse_command = function(n) require("mini.bufremove").delete(n, false) end,
-  --         diagnostics = "nvim_lsp",
-  --         always_show_bufferline = false,
-  --         diagnostics_indicator = function(_, _, diag)
-  --           local icons = require("config.icons").icons.diagnostics
-  --           local ret = (diag.error and icons.Error .. diag.error .. " " or "")
-  --             .. (diag.warning and icons.Warn .. diag.warning or "")
-  --           return vim.trim(ret)
-  --         end,
-  --         offsets = {
-  --           {
-  --             filetype = "neo-tree",
-  --             text = "Neo-tree",
-  --             highlight = "Directory",
-  --             text_align = "left",
-  --           },
-  --         },
-  --       },
-  --     },
-  --   },
-
   -- statusline
   {
     "nvim-lualine/lualine.nvim",
     event = "VeryLazy",
     opts = function()
       local icons = require("config.icons").icons
-      local Util = require("config.util")
+      local function fg(name)
+        local hl = vim.api.nvim_get_hl and vim.api.nvim_get_hl(0, { name = name }) or vim.api.nvim_get_hl_by_name(name, true)
+        local fg = hl and hl.fg or hl.foreground
+        return fg and { fg = string.format("#%06x", fg) }
+      end
 
       return {
         options = {
@@ -125,19 +92,19 @@ return {
             {
               function() return require("noice").api.status.command.get() end,
               cond = function() return package.loaded["noice"] and require("noice").api.status.command.has() end,
-              color = Util.fg("Statement"),
+              color = fg("Statement"),
             },
             -- stylua: ignore
             {
               function() return require("noice").api.status.mode.get() end,
               cond = function() return package.loaded["noice"] and require("noice").api.status.mode.has() end,
-              color = Util.fg("Constant"),
+              color = fg("Constant"),
             },
             -- stylua: ignore
             {
               function() return "  " .. require("dap").status() end,
               cond = function () return package.loaded["dap"] and require("dap").status() ~= "" end,
-              color = Util.fg("Debug"),
+              color = fg("Debug"),
             },
           },
           lualine_y = {
@@ -162,15 +129,13 @@ return {
       char = "│",
       filetype_exclude = {
         "help",
-        "alpha",
-        "dashboard",
         "neo-tree",
         "Trouble",
         "lazy",
         "mason",
         "notify",
         "toggleterm",
-        "lazyterm",
+        "gitterm",
       },
       show_trailing_blankline_indent = false,
       show_current_context = false,
@@ -179,18 +144,13 @@ return {
 
   -- noicer ui
   {
-    "folke/which-key.nvim",
-    opts = function(_, opts)
-      if require("config.util").has("noice.nvim") then
-        opts.defaults["<leader>sn"] = { name = "+noice" }
-      end
-    end,
-  },
-  {
     "folke/noice.nvim",
     event = "VeryLazy",
     opts = {
       lsp = {
+        progress = {
+          enabled = false,
+        },
         override = {
           ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
           ["vim.lsp.util.stylize_markdown"] = true,
@@ -219,6 +179,14 @@ return {
           },
           opts = { skip = true },
         },
+        {
+          filter = {
+            event = "msg_show",
+            kind = "",
+            find = "written",
+          },
+          opts = { skip = true },
+        },
       },
       presets = {
         bottom_search = true,
@@ -236,6 +204,18 @@ return {
       { "<leader>snd", function() require("noice").cmd("dismiss") end, desc = "Dismiss All" },
       { "<c-f>", function() if not require("noice.lsp").scroll(4) then return "<c-f>" end end, silent = true, expr = true, desc = "Scroll forward", mode = {"i", "n", "s"} },
       { "<c-b>", function() if not require("noice.lsp").scroll(-4) then return "<c-b>" end end, silent = true, expr = true, desc = "Scroll backward", mode = {"i", "n", "s"}},
+    },
+  },
+
+  -- fidget - lsp progress
+  {
+    "j-hui/fidget.nvim",
+    tag = "legacy",
+    event = "LspAttach",
+    opts = {
+      fmt = {
+        stack_upwards = false,
+      },
     },
   },
 
