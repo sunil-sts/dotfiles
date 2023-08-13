@@ -1,5 +1,3 @@
-local Util = require("config.util")
-
 return {
 
   -- file explorer
@@ -10,9 +8,7 @@ return {
     keys = {
       {
         "<leader>e",
-        function()
-          require("neo-tree.command").execute({ toggle = true, dir = require("config.util").get_root() })
-        end,
+        "<cmd>Neotree<cr>",
         desc = "Explorer NeoTree (root dir)",
       },
     },
@@ -145,9 +141,6 @@ return {
     "nvim-telescope/telescope.nvim",
     optional = true,
     opts = function(_, opts)
-      if not require("config.util").has("flash.nvim") then
-        return
-      end
       local function flash(prompt_bufnr)
         require("flash").jump({
           pattern = "^",
