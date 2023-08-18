@@ -2,7 +2,7 @@
 
 git clone --bare git@github.com:sunil-sts/dotfiles.git $HOME/personal/dotfiles.git
 function config {
-   /usr/bin/git --git-dir=$HOME/personal/dotfile.git $@
+   /usr/bin/git --git-dir=$HOME/personal/dotfiles.git $@
 }
 config config --unset core.bare
 config config --local core.worktree $HOME
@@ -13,6 +13,6 @@ if [ $? = 0 ]; then
   echo "Checked out config.";
   else
     echo "Backing up pre-existing dot files.";
-    config checkout 2>&1 | egrep "\s+\." | awk {'print $1'} | xargs -I{} mv {} .config-backup/{}
+    config checkout 2>&1 | egrep "\s+\." | awk {'print $1'} | xargs -I{} mv {} .config-backup/
 fi;
 config checkout
