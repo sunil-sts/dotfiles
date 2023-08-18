@@ -102,7 +102,6 @@ vim.keymap.set("n", "N", "Nzzzv")
 Keymap("n", "J", "mzJ`z")
 
 -- LSP
-Keymap("n", "<leader>lF", "<cmd>LspToggleAutoFormat<cr>")
 Keymap("n", "<leader>li", "<cmd>LspInfo<cr>")
 
 -- Trouble

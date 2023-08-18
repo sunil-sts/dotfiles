@@ -5,7 +5,6 @@ return {
     "neovim/nvim-lspconfig",
     event = { "BufReadPre", "BufNewFile" },
     dependencies = {
-      -- { "folke/neoconf.nvim", cmd = "Neoconf", config = false, dependencies = { "nvim-lspconfig" } },
       { "folke/neodev.nvim", opts = {} },
       "mason.nvim",
       "williamboman/mason-lspconfig.nvim",
@@ -34,10 +33,6 @@ return {
       },
       -- add any global capabilities here
       capabilities = {},
-      autoformat = false,
-      -- Enable this to show formatters used in a notification
-      -- Useful for debugging formatter issues
-      format_notify = false,
       -- options for vim.lsp.buf.format
       -- `bufnr` and `filter` is handled by the LazyVim formatter,
       -- but can be also overridden when specified
@@ -75,10 +70,6 @@ return {
     config = function(_, opts)
       local Util = require("config.util")
 
-      -- if Util.has("neoconf.nvim") then
-      --   local plugin = require("lazy.core.config").spec.plugins["neoconf.nvim"]
-      --   require("neoconf").setup(require("lazy.core.plugin").values(plugin, "opts", false))
-      -- end
       -- setup autoformat
       require("plugins.lsp.format").setup(opts)
       -- setup formatting and keymaps
@@ -91,7 +82,6 @@ return {
       vim.lsp.handlers["client/registerCapability"] = function(err, res, ctx)
         local ret = register_capability(err, res, ctx)
         local client_id = ctx.client_id
-        ---@type lsp.Client
         local client = vim.lsp.get_client_by_id(client_id)
         local buffer = vim.api.nvim_get_current_buf()
         require("plugins.lsp.keymaps").on_attach(client, buffer)
@@ -162,7 +152,7 @@ return {
         all_mslp_servers = vim.tbl_keys(require("mason-lspconfig.mappings.server").lspconfig_to_package)
       end
 
-      local ensure_installed = {} ---@type string[]
+      local ensure_installed = {}
       for server, server_opts in pairs(servers) do
         if server_opts then
           server_opts = server_opts == true and {} or server_opts
@@ -218,12 +208,8 @@ return {
     build = ":MasonUpdate",
     opts = {
       ensure_installed = {
-        "stylua",
-        "shfmt",
-        -- "flake8",
       },
     },
-    ---@param opts MasonSettings | {ensure_installed: string[]}
     config = function(_, opts)
       require("mason").setup(opts)
       local mr = require("mason-registry")

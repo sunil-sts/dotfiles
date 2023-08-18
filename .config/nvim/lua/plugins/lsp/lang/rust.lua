@@ -10,7 +10,6 @@ return {
         config = true,
       },
     },
-    ---@param opts cmp.ConfigSchema
     opts = function(_, opts)
       local cmp = require("cmp")
       opts.sources = cmp.config.sources(vim.list_extend(opts.sources, {
@@ -45,7 +44,7 @@ return {
     lazy = true,
     opts = function()
       local ok, mason_registry = pcall(require, "mason-registry")
-      local adapter ---@type any
+      local adapter
       if ok then
         -- rust tools configuration for debugging support
         local codelldb = mason_registry.get_package("codelldb")
@@ -64,7 +63,7 @@ return {
             vim.cmd([[
                   augroup RustLSP
                     autocmd CursorHold                      *.rs silent! lua vim.lsp.buf.document_highlight()
-                    autocmd CursorMoved,InsertEnter         *.rs silent! lua vim.lsp.buf.clear_references()
+                    autocmd CursorMoved,InsertEnter          *.rs silent! lua vim.lsp.buf.clear_references()
                     autocmd BufEnter,CursorHold,InsertLeave *.rs silent! lua vim.lsp.codelens.refresh()
                   augroup END
                 ]])
@@ -137,6 +136,7 @@ return {
     },
   },
 
+  -- Kept for future reference
   {
     "nvim-neotest/neotest",
     optional = true,

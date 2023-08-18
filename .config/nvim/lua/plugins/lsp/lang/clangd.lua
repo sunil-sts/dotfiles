@@ -103,6 +103,7 @@ return {
     end,
   },
 
+  -- Kept for future reference
   {
     "mfussenegger/nvim-dap",
     optional = true,
