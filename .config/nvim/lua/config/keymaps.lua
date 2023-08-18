@@ -149,7 +149,7 @@ local function lazygit()
   local float = require("lazy.util").float(opts)
   if gitpath then
     opts = vim.tbl_deep_extend("force", opts, { cwd = vim.env.HOME, })
-    vim.fn.termopen("lazygit --git-dir=" .. gitpath, opts)
+    vim.fn.termopen("lazygit --git-dir=" .. gitpath .. " --work-tree=" .. vim.env.HOME, opts)
   else
     vim.fn.termopen("lazygit", opts)
   end
