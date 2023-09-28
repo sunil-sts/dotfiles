@@ -6,6 +6,9 @@ function Keymap(mode, lhs, rhs, opts)
   vim.api.nvim_set_keymap(mode, lhs, rhs, options)
 end
 
+--Netrw
+Keymap("n", "<leader>e", "<cmd>:Explore<cr>")
+
 -- find and replace on word under cursor
 Keymap("n", "<leader>cs", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 

@@ -4,6 +4,30 @@ local function augroup(name)
   return vim.api.nvim_create_augroup("sunil_" .. name, { clear = true })
 end
 
+-- Netrw keymaps
+vim.api.nvim_create_autocmd("filetype", {
+  pattern = { "netrw" },
+  callback = function ()
+    local key = function (lhs, rhs)
+      vim.keymap.set("n", lhs, rhs, { remap = true, buffer = true })
+    end
+    key("H", "u")
+    key("h", "-^")
+    key("l", "<cr>")
+    --Mark
+    key("<tab>", "mf")
+    key("<s-tab>", "mF")
+    key("<Leader><tab>", "mu")
+    --File actions
+    key("n", "%<cmd>w<cr><cmd>Explore<cr>")
+    key("r", "R")
+    key("c", "mc")
+    key("C", "mtmc")
+    key("m", "mm")
+    key("M", "mtmm")
+  end
+})
+
 -- Transparency
 
 vim.api.nvim_create_autocmd("BufEnter", {

@@ -51,3 +51,8 @@ end
 vim.cmd([[filetype plugin indent on]])
 vim.opt.isfname:append("@-@")
 
+vim.g.netrw_liststyle = 3
+vim.g.netrw_banner = 1
+vim.g.netrw_browse_split=0
+vim.g.netrw_localcopydircmd='cp -r'
+
