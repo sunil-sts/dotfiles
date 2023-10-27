@@ -1,4 +1,4 @@
-cmap ;cac /home/linus/.cache
+cmap ;cac /home/linus/.local/cache
 cmap ;cf /home/linus/.config
 cmap ;D /home/linus/downloads
 cmap ;d /home/linus/documents
