@@ -1,15 +1,12 @@
 local M = {}
 
----@type PluginLspKeys
 M._keys = nil
 
----@return (LazyKeys|{has?:string})[]
 function M.get()
   local format = function()
     require("plugins.lsp.format").format({ force = true })
   end
   if not M._keys then
-  ---@class PluginLspKeys
     -- stylua: ignore
     M._keys =  {
       { "<leader>cd", vim.diagnostic.open_float, desc = "Line Diagnostics" },
@@ -65,7 +62,6 @@ function M.get()
   return M._keys
 end
 
----@param method string
 function M.has(buffer, method)
   method = method:find("/") and method or "textDocument/" .. method
   local clients = vim.lsp.get_active_clients({ bufnr = buffer })
@@ -79,7 +75,7 @@ end
 
 function M.resolve(buffer)
   local Keys = require("lazy.core.handler.keys")
-  local keymaps = {} ---@type table<string,LazyKeys|{has?:string}>
+  local keymaps = {}
 
   local function add(keymap)
     local keys = Keys.parse(keymap)
@@ -104,18 +100,17 @@ function M.resolve(buffer)
   return keymaps
 end
 
-function M.on_attach(client, buffer)
+function M.on_attach(_, buffer)
   local Keys = require("lazy.core.handler.keys")
   local keymaps = M.resolve(buffer)
 
   for _, keys in pairs(keymaps) do
     if not keys.has or M.has(buffer, keys.has) then
       local opts = Keys.opts(keys)
-      ---@diagnostic disable-next-line: no-unknown
       opts.has = nil
       opts.silent = opts.silent ~= false
       opts.buffer = buffer
-      vim.keymap.set(keys.mode or "n", keys[1], keys[2], opts)
+      vim.keymap.set(keys.mode or "n", keys.lhs, keys.rhs, opts)
     end
   end
 end
