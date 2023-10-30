@@ -33,6 +33,7 @@ return {
       },
       -- LSP Server Settings
       servers = {
+        tailwindcss = {},
         zls = {},
         lua_ls = {
           -- mason = false, -- set to false if you don't want this server to be installed with mason
