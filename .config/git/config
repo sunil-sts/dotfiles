@@ -1,0 +1,9 @@
+[user]
+	email = sunil.sts@proton.me
+	name = Linus Sundkvist
+[init]
+	defaultBranch = master
+[diff]
+	submodule = log
+[status]
+	submodulesummary = 1
