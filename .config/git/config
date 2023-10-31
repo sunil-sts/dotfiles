@@ -7,3 +7,9 @@
 	submodule = log
 [status]
 	submodulesummary = 1
+[submodule]
+	recurse = true
+[core]
+	autocrlf = input
+[push]
+	followTags = true
