@@ -1,0 +1,9 @@
+[submodule ".config/zsh/plugins/fhs"]
+	path = .config/zsh/plugins/fhs
+	url = git@github.com:joshskidmore/zsh-fzf-history-search.git
+[submodule ".config/zsh/plugins/fsh"]
+	path = .config/zsh/plugins/fsh
+	url = git@github.com:zdharma-continuum/fast-syntax-highlighting.git
+[submodule ".config/zsh/plugins/ohmyzsh"]
+	path = .config/zsh/plugins/ohmyzsh
+	url = git@github.com:ohmyzsh/ohmyzsh.git
