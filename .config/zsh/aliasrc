@@ -13,6 +13,21 @@ done; unset command
 
 se() { cd ~/.local/bin; $EDITOR $(fzf) ;}
 
+git() {
+  case "$PWD" in
+    "$HOME" | "$HOME/.config" | "$HOME/.config/"*) command git --git-dir="$HOME/personal/dotfiles.git/" --work-tree="$HOME" "$@" ;;
+    *) command git "$@" ;;
+  esac
+}
+
+alias cd="z"
+alias ls="eza --group-directories-first"
+alias cat="bat"
+alias fzf='fzf --preview "bat --color=always --style=numbers --line-range=:500 {}"'
+#alias sk='sk --preview "bat --color=always --style=numbers --line-range=:500 {}"'
+
+alias znew='f() { zellij attach --session "$1" || zellij --session "$1"; }; f'
+
 # Verbosity and settings that you pretty much just always are going to want.
 alias \
 	cp="cp -iv" \
@@ -26,18 +41,17 @@ alias \
 
 # Colorize commands when possible.
 alias \
-	ls="ls -hN --color=auto --group-directories-first" \
 	grep="grep --color=auto" \
 	diff="diff --color=auto" \
 	ccat="highlight --out-format=ansi" \
 	ip="ip -color=auto"
+	#ls="ls -hN --color=auto --group-directories-first" \
 
 # These common commands are just too long! Abbreviate them.
 alias \
 	g="git" \
 	trem="transmission-remote" \
 	p="pacman" \
-	z="zathura" \
     open="xdg-open" \
 
 alias \

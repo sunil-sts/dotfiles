@@ -4,14 +4,15 @@
 # This is always run, i.e. login shells and interactive shells
 
 # Path
-export PATH="$HOME/.local/bin:$HOME/.local/bin/statusbar:$PATH"
+export PATH="$HOME/.local/bin:$HOME/.local/bin/statusbar:$PATH:$HOME/personal/scripts"
 
 # Default programs
 export EDITOR="nvim"
 export VISUAL="nvim"
 export PAGER="less"
-export TERMINAL="st"
-export BROWSER="librewolf"
+export MANPAGER="nvim +Man!"
+export TERMINAL="ghostty"
+export BROWSER="zen-browser"
 
 # XDG Base Directory Specification
 export XDG_CONFIG_HOME="$HOME/.config"
@@ -72,6 +73,10 @@ export PASSWORD_STORE_ENABLE_EXTENSIONS=true
 
 # Tmux
 export TMUX_TMPDIR="$XDG_RUNTIME_DIR"
+
+# Zellij
+export ZELLIJ_AUTO_ATTACH=true
+export ZELLIJ_AUTO_EXIT=true
 
 # gtk
 export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/gtkrc"

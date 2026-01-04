@@ -8,6 +8,7 @@ stty stop undef		# Disable ctrl-s to freeze terminal.
 setopt interactive_comments
 
 # Load aliases and shortcuts if existent.
+[ -f "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/coreutils" ]       && source "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/coreutils"
 [ -f "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/shortcutrc" ]       && source "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/shortcutrc"
 [ -f "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/aliasrc" ]          && source "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/aliasrc"
 [ -f "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/zshnameddirrc" ]    && source "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/zshnameddirrc"
@@ -25,6 +26,7 @@ fpath=(~/tools/zsh-completions/src $fpath)
 zmodload -i zsh/complist
 compinit
 _comp_options+=(globdots)		# Include hidden files.
+eval "$(zoxide init zsh)"
 
 # vi mode
 bindkey -v
@@ -103,4 +105,20 @@ if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] &&
         exec tmux new -As0
     fi
 fi
+
+# if [[ -z "$ZELLIJ" ]]; then
+#   if [[ -z "$DISPLAY" ]] && [[ ! "$(tty)" = "/dev/tty1" ]]; then
+#     zellij attach -c tty
+#   else
+#     zellij attach -c 0
+#   fi
+#     if [[ "$ZELLIJ_AUTO_EXIT" == "true" ]]; then
+#         exit
+#     fi
+# fi
+#
+# Starship configuration for a transient prompt
+
+# Load Starship
+# eval "$(starship init zsh)"
 

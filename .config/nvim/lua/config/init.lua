@@ -10,6 +10,8 @@ end
 require("config.options")
 require("config.autocmds")
 require("config.keymaps")
+require("config.lsp")
+require("config.diagnostics")
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 

@@ -1,7 +1,7 @@
 require("lazy").setup({
   spec = {
     { import = "plugins" },
-    { import = "plugins/lsp/lang" },
+    -- { import = "plugins/lsp/lang" },
   },
 
   defaults = {
@@ -14,22 +14,21 @@ require("lazy").setup({
   },
 
   install = {
-    colorscheme = { "onedark" },
+    colorscheme = { "tokyonight-night" },
   },
 
   performance = {
     rtp = {
       disabled_plugins = {
-        "gzip",
+        -- "gzip",
         -- "matchit",
         -- "matchparen",
-        -- "netrwPlugin",
-        "tarPlugin",
-        "tohtml",
-        "tutor",
-        "zipPlugin",
+        "netrwPlugin",
+        -- "tarPlugin",
+        -- "tohtml",
+        -- "tutor",
+        -- "zipPlugin",
       },
     },
   },
 })
-
